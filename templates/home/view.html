@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <title>{{product.name}}</title>
+    <link rel="stylesheet" href="{% static 'css/view.css' %}">
+</head>
+<body>
+    
+
+    <div class="overlay">
+        <div class="delete">
+            <div class="remove">
+                <i class="fas fa-times" id="no"></i>
+            </div>
+            <div class="form">
+                <i class="fas fa-trash"></i>
+                <p>Do you want to delete this prduct</p>
+            </div>
+            <div class="btns">
+                <form action="{% url 'delPro' product.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Yes</button>
+                </form>
+                <button id="no">No</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="info-layer ">
+        <div class="view">
+            <div class="info">
+                
+                <div class="el">
+                    <div class="up">
+                        Name
+                    </div>
+                    {{product.name}}
+                </div>
+                
+                <div class="el">
+                    <div class="up">
+                        Price
+                    </div>
+                    {{product.price}}$
+                </div>
+                
+                <div class="el">
+                    <div class="up">
+                        Descroption 
+                    </div>
+                    {{product.desc}}
+                </div>
+                
+                <div class="el">
+                    <div class="up">
+                        Spectifications
+                    </div>            
+                    <div class="specs" id="specs">
+
+                    </div>
+                    <script>
+                        var list = '{{product.specs}}';
+                        var index = list.split(";")
+                        
+                        for (var i=0;i<index.length;i++) {
+                            document.getElementById('specs').innerHTML += `<p>${index[i]}</p>`;
+                        }
+                    </script>
+                </div>
+
+                <div class="el">
+                    <div class="up">Posted in : </div>
+                    {{product.date | date:"Y/m/d h:I A"}}
+                </div>
+
+                    <div class="el">
+                        <div class="up">
+                            Message the owner
+                        </div>
+                        {% if user != product.user %}
+                            is this product is good ! <br>
+                            <button id="chat">
+                                <img src="{{product.user.profile.image.url}}" alt="">
+                                <div>
+                                    Chat {{product.user.username}} <br>
+                                    <b>Owner</b>
+                                </div>
+                            </button>
+                            <script>
+                                document.getElementById('chat').onclick = function(){
+                                    window.location.href = "{% url 'chat' product.name %}"
+                                }
+                            </script>
+                            {% else %}
+                                <small>You Already the owner !</small>
+                        {% endif %}
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="image">
+
+        <img src="{{product.image.url}}" style="margin-top: 15px;"  onclick="window.location.href='{{product.image.url}}'">
+
+    </div>
+    <div class="view-deatils">
+        <p>Details</p>
+        <i class="fas fa-arrow-up" id="view-details-btn"></i>
+        {% if user.is_authenticated %}
+            {% if product in user.profile.products.all %}
+                <div>
+                    <i class="fas fa-save save-url" style="color: 000;"></i><small>(already Saved !)</small>
+                </div>
+            {% else %}
+                <i class="fas fa-save save-url"></i>
+            {% endif %}
+            <script>document.querySelector('.save-url').onclick = function(){window.location.href = "{% url 'saved' product.id %}"}</script>
+        
+        {% endif %}
+        
+        {% if user == product.user %}
+            <i class="fas fa-edit" style="color: rgb(50, 97, 216);" id="editPro"></i>
+            <script>document.getElementById('editPro').onclick = function(){window.location.href="{% url 'editPro' product.pk %}"}</script>
+            <i class="fas fa-trash" style="color: crimson;" id="delete-btn"></i>
+        {% endif %}
+    </div>
+
+
+
+</body>
+</html>
+
+
+<script>
+
+    document.getElementById('view-details-btn').onclick = function(){
+        document.querySelector('.image').classList.toggle('blur');
+        document.querySelector('.info-layer').classList.toggle('view');
+        document.querySelector('.view-deatils i').classList.toggle('down');
+    }
+
+
+
+
+
+    document.getElementById('delete-btn').onclick = function(){
+       document.querySelector('.overlay').classList.add('view');
+    }
+
+
+    var quers = document.querySelectorAll('#no');
+    for (var i=0;i<quers.length;i++) {
+        quers[i].onclick = function(){
+            document.querySelector('.overlay').classList.remove('view')
+        }
+    }
+
+
+
+</script>

@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <title>{% block title %} {% endblock %}</title>
+
+</head>
+<body>
+
+    
+    <div class="nav" id="nav">
+        <h1>AZShop</h1>
+        
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'viewchats' %}" class="fab fa-facebook-messenger msgs"></a>
+            {% endif %}
+                <button class="fas fa-bars bars">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'add' %}">Add Prodcuts</a></li>
+                        <li><a href="{% url 'profile' %}">Account</a></li>
+                        <li><a href="{% url 'Vsaved' %}">Saved Products</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Signup</a></li>
+                    {% endif %}
+                </ul>
+                </button>
+        </div>
+
+    </div>
+    
+    <div class="header">
+        <div class="view">
+            <h1 style="position: absolute;z-index: 888;font-size: 33px;left: 0;width: 100%;text-align: center;top: -50px;color: #fff;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Welcome {% if user.is_authenticated %}{{user}}{% else %} {% endif %}</h1>
+            <div class="in">
+                <span></span>
+                <form action="{% url 'home' %}" method="GET">
+                    <input type="text" placeholder="Search for something" name="search" id="">
+                    <button class="fas fa-search icon" style="background-color: transparent;border: none;"></button>
+                </form>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+
+    {% block data %} {% endblock %}
+
+
+    <script src="{% static 'jq/jquery.min.js' %}"></script>
+
+    <script>
+        setInterval(function(){
+            $.ajax({
+                type:"GET",
+                url:"{% url 'unseen' %}",
+                success:function(data){
+                    if(data){
+                        document.querySelector('.msgs').classList.add('active')
+                    }
+                    else {
+                        document.querySelector('.msgs').classList.remove('active')    
+                    }
+                }
+            })
+        },1000)
+
+
+
+
+        document.onscroll = function(){
+            if (window.pageYOffset > 350) {
+                var bar = document.getElementById('nav');
+                bar.classList.add('new')
+         
+            }
+            if (window.pageYOffset < 350){
+                document.getElementById('nav').classList.remove('new');
+         
+            }
+        }
+    </script>
+</body>
+</html>

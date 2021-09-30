@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="info">
+
+            <div class="image">
+                <img src="{{user.profile.image.url}}" alt="">
+                <button id="img-btn" type="button">Change</button>
+                <form action="." method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file"  accept="image/*" style="display: none;" name="image" id="image">
+                    <button id="submit" type="submit" style="display: none;"></button>
+                </form>
+            </div>
+
+            <script>
+
+                document.getElementById('img-btn').onclick = function(){
+                    document.getElementById('image').click()
+                }
+
+                document.getElementById('image').onchange = function(){
+                    document.getElementById('submit').click()
+                }
+
+            </script>
+
+            
+            <div class="data">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <div class="in">
+                        <label for="">Username</label>
+                        <input type="text" name="username" value="{{user.username}}" id="">
+                    </div>
+                    <div class="in">
+                        <label for="">Email</label>
+                        <input type="text" name="email" value="{{user.email}}" id="">
+                    </div>
+                    <div class="in">
+                        <label for="">Phone</label>
+                        <input type="tel" name="phone" value="{{user.profile.phone}}" id="">
+                    </div>
+                    <div class="btns">
+                        <button type="submit">Save</button>
+                        <a href="{% url 'profile' %}">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

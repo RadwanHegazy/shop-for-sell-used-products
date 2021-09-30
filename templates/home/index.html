@@ -1,0 +1,36 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+
+{% block data %}
+
+    <div class="container">
+
+             
+        {% for i in products %}
+            <div class="view" >
+                <div class="up">
+                    <div class="image" style="display: block;">
+                        <img src="{{i.user.profile.image.url}}">
+                    </div>
+                    <small class="date">{{i.date|date:"Y/m/d"}}</small>
+                </div>
+                <div class="img">
+                    <img src="{{i.image.url}}" alt="">
+                </div>
+                <div class="info">
+                    <label for="">{{i.name|truncatechars:50}}</label><br>
+                    <p class="text-muted">{{i.desc|truncatechars:200}}</p>
+                </div>
+                <div class="go">
+                    <small class="price">{{i.price}}$</small>
+                    <a href="{% url 'vpro' i.id %}" class="view-btn">View</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

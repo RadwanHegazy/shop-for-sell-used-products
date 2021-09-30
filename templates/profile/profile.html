@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <title>Profile | {{user}}</title>
+</head>
+<body>
+
+    
+    <div class="container">
+        
+        <div class="profile">
+            <div class="image">
+                <img src="{{user.profile.image.url}}" width="100px" height="100px" alt="">
+            </div>
+            <div class="info">
+                <h1>{{user}}</h1>
+                <p class="mute">Joined at {{user.profile.date|date:"Y/m/d"}}</p>
+                <div class="do">
+                    <a href="{% url 'edit_profile' %}"><i class="fas fa-magic"></i> Edit</a>
+                    <a href="#products"><i class="fas fa-cubes"></i> Products</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="br"></div>
+
+        <div class="cct" id="products">
+            {% for i in products %}
+            <div class="view">
+                <div class="up">
+                    <div class="image">
+                        <img src="{{i.user.profile.image.url}}">
+                        <b><a class="text-primary" style="cursor: default;">{{i.user}}</a></b>
+                    </div>
+                    <small class="date">{{i.date|date:"Y/m/d"}}</small>
+                </div>
+                <div class="img">
+                    <img src="{{i.image.url}}" alt="">
+                </div>
+                <div class="info">
+                    <label for="">{{i.name}}</label><br>
+                    <p class="text-muted">{{i.desc|truncatechars:200}}</p>
+                </div>
+                <div class="go">
+                    <small class="price">{{i.price}}$</small>
+                    <a href="{% url 'vpro' i.id %}" class="view-btn">View</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+
+
+
+    </div>
+
+
+    
+
+    <style>
+    </style>
+</body>
+</html>

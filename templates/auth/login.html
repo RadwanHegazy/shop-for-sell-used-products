@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <title>Login</title>
+</head>
+<body>
+
+    
+    
+
+    <div class="login">
+        {% if form.errors %}
+            {% for key,val in form.errors.items %}
+                {% for error in val %}
+                    <div class="alert alert-danger">
+                        {{error}}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        
+        <div class="image">
+            <img src="{% static 'images/avatar.svg' %}" alt="">
+        </div>
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="in">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="Username" id="">
+            </div>
+    
+            <div class="in">
+                <i class="fas fa-user-lock"></i>
+                <input type="password" placeholder="Password" name="password" id="">
+            </div>
+    
+            <div class="btns">
+                <button type="submit">Login</button>
+                <a href="{% url 'signup' %}">Signup</a>
+            </div>
+        </form>
+
+    </div>
+
+
+</body>
+</html>

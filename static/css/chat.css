@@ -1,0 +1,229 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #fff;
+}
+.container .down{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.container {
+    position: relative;
+    width: 70%;
+    height: 800px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.container .pro-view {
+    width: 100%;
+    display: flex;
+    padding: 7px;
+    justify-content: space-between;
+}
+
+.container .image {
+    width: 180px;
+    height: 180px;
+}
+
+.container .image img {
+    width: auto;
+    height: 100%;
+}
+
+.container .pro-view .info {
+    display: block;
+    flex-wrap: wrap;
+    width: 60%;
+    padding-left: 10px;
+    position: relative;
+}
+
+.container .pro-view .info .name {
+    color: #5c9cff;
+    font-weight: lighter;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+.container .pro-view .info .price {
+    font-family: sans-serif;
+    color: rgb(44, 180, 44);
+    font-size: 25px;
+}
+
+.container .line {
+    position: relative;
+    height: 1px;
+    width: 90%;
+    margin: 15px auto;
+    background-color: #9999;
+}
+
+.container .user-side {
+    width: 100%;
+    position: relative;
+    margin-top: 80px;
+}
+.container .user-side .user {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+
+.container .user-side .user img {
+    width: 100px;
+    border-radius: 50%;
+    height: 100px;
+}
+
+.container .user-side .user .username {
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bolder;
+    background-color: #5c9cff;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.container .chat-side {
+    position: relative;
+    top: 100px;
+    /**background-color: #f1f1f1;**/
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+    width: 90%;
+    margin:  auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 20px;
+}
+
+.container .chat-side .isend {
+    position: relative;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.container .chat-side .irecv {
+    position: relative;
+    width: 100%;
+    margin-top: 25px;
+    text-align: right;
+}
+
+.container .chat-side .irecv label{
+    padding: 7px;
+    background-color: #dddd;
+    border-right: 2px solid #aaa;
+    font-family: sans-serif;
+    position: relative;
+} 
+
+.container .chat-side .isend label {
+    background-color: #5c9cff;
+    padding: 7px;
+    border-left: 2px solid #0066fffa;
+    color: #fff;
+    font-family: sans-serif;
+    position: relative;
+}
+
+
+.in {
+    width: 60%;
+    margin: 15px auto;
+    position: relative;
+    margin-top: 15px;
+}
+
+ .in input {
+    width: 100%;
+    margin: auto;
+    padding: 18px;
+    border: none;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+ .in input:focus {
+    color: #fff;
+    background-color: #5c9cff;
+}
+
+ .in button {
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    color: #0066fffa;
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+ .in button:hover {
+    background-color: #f1f1f1;
+}
+
+.in .insert {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    display: flex;
+    width: 60px;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.isend.img ,.irecv.img {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+
+.isend.img label ,.irecv.img label {
+    background-color: transparent;
+}
+
+.isend.img img ,.irecv.img img {
+    width: auto;
+    height: 100%;
+}
+
+@media (max-width:810px){
+    .container .pro-view .image {
+        width: 100%;
+        text-align: center;
+        height: 100px;
+    }
+
+    .container .pro-view .image img {
+        width: auto;
+        height: 100px;
+    }
+
+    .container .pro-view .info {
+        width: 100%;
+    }
+
+    .container .pro-view .info .name, .container .pro-view .info .price {
+        font-size: 15px;
+    }
+    
+    .in {
+        width: 90%;
+    }
+}

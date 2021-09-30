@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{{user}} | Chat</title>
+</head>
+<body>
+    
+    <div class="nav" id="nav">
+        <h1>AZShop</h1>
+        <div>
+            <a href="{% url 'viewchats' %}" class="fab fa-facebook-messenger msgs"></a>
+                <button class="fas fa-bars bars">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'add' %}">Add Prodcuts</a></li>
+                        <li><a href="{% url 'profile' %}">Account</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Signup</a></li>
+                    {% endif %}
+                </ul>
+                </button>
+        </div>
+    </div>
+
+
+
+
+    <style>
+        .up-section {
+            width: 100%;
+            text-align: center;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        .up-section select {
+            padding: 7px;
+            border: none;
+            background-color: #5c9cff;
+            color: #fff;
+            outline: none;
+            width: 350px;
+        }
+
+        .up-section button {
+            background-color: #5c9cff;
+            color: #fff;
+            padding: 7px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .chat-from {
+            width: 90%;
+            margin: 50px auto;
+        }
+
+        .chat-from .not-found{
+            font-family: sans-serif;
+            color: #fff;
+            background-color: #5c9cff;
+            padding: 27px;
+            border: 3px solid #97bbf2;
+        }
+
+        .chat-from .container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
+        .chat-from .container .box {
+            position: relative;
+            width: 210px;
+            overflow: hidden;
+            background-color: #fff;
+            border: 2px solid #f1f1f1;
+            border-radius: 30px;
+            padding: 7px;
+            margin: 5px;
+        }
+
+        .chat-from .container .box .up-side {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-from .container .box .up-side img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .chat-from .container .box .up-side > div {
+            display: flex;
+            align-items: center;
+        }
+
+        .box .up-side > div p {
+            font-family: sans-serif;
+            color: #5c9cff;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+        .box .up-side .date {
+            color: #999;
+            font-size: 13px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .box .image {
+            overflow: hidden;
+            width: 100%;
+            height: 150px;
+            text-align: center;
+        }
+
+        .box .image img {
+            width: auto;
+            height: 100%;
+        }
+
+        .box .info {
+            width: 100%;
+            text-align: center;
+            padding: 7px;
+        }
+
+        .box .info a {
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: bolder;
+            padding: 7px;
+            background-color: #5c9cff;
+            color: #fff;
+            display: block;
+            margin-top: 12px;
+            font-family: sans-serif;
+        }
+        .box .info a.del {
+            color: #fff;
+            background-color: crimson;
+        }
+
+    </style>
+    <div class="up-section">
+        <form action="." method="GET">
+            <select name="product-name" id="Pname">
+                {% if not ps %}
+                    <p>You don't have any products</p>
+                {% endif %}
+                <option value="all">All</option>
+                {% for i in ps %}
+                    <option value="{{i.name}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+            <button>View</button>
+        </form>
+
+    </div>
+
+
+    <div class="chat-from">
+
+
+        {% if data %} 
+        <div class="container">
+            
+
+            {% for i in data %}
+
+                <div class="box">
+                    
+                    <div class="up-side">
+                        <div>
+                            <img src="{{i.client.profile.image.url}}" alt="">
+                            <p>{{i.client}}</p>
+                        </div>
+                        <p class="date">
+                            {{i.date|date:"Y/m/d"}}
+                        </p>
+                    </div>
+
+
+                    <div class="image">
+                        <img src="{{i.product.image.url}}" alt="">
+                    </div>
+
+                    <div class="info">
+                        <p class="ask">{{i.client}} is asked for product : <br>{{i.product.name}}</p>
+                        <a href="{% url 'owner_chat' i.product.name i.client%}">Chat</a>
+                        <a href="{% url 'delAsker' i.client.id %}" class="del">Delete</a>
+                    </div>
+                    
+                </div>
+
+            {% endfor %}
+
+
+
+
+        </div>
+        {% else %}
+            <div class="not-found">
+                No recived chats
+            </div>
+        {% endif %}
+        
+
+
+    </div>
+
+
+    <script>
+
+
+
+
+        document.onscroll = function(){
+            if (window.pageYOffset > 350) {
+                var bar = document.getElementById('nav');
+                bar.classList.add('new')
+         
+            }
+            if (window.pageYOffset < 350){
+                document.getElementById('nav').classList.remove('new');
+         
+            }
+        }
+    </script>
+
+</body>
+</html>

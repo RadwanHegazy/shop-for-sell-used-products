@@ -1,0 +1,143 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f9f9;
+}
+
+.container {
+    position: relative;
+    margin:auto;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    display: block;
+}
+
+.container .form {
+    position: relative;
+    margin-top: 130px;
+}
+.container .nav {
+    position: absolute;
+    top: 0;
+}
+.container .in {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+.container .in input {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    width: 90%;
+    border: none;
+    margin-top: 10px;
+    background-color: #5c9cff;
+    color: #fff;
+    outline: none;
+    border-left: 5px solid #ddd;
+}
+
+
+.in .btn {
+    position: absolute;
+    right: 50px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border: 2px solid transparent;
+    outline: none;
+    border: none;
+    bottom: 7px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.in .btn:hover {
+    background-color: transparent;
+    color: #fff;
+    border:1px solid #fff;
+}
+
+.spec {
+    width: 90%;
+    /* padding: 7px; */
+    position: relative;
+    margin: auto;
+    /* border: 1px solid rebeccapurple; */
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.spec p {
+    font-family: sans-serif;
+    font-size: 15px;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 3px;
+    color: #5c9cff;
+    cursor: pointer;
+}
+
+.done {
+    width: 90%;
+    padding: 7px;
+    font-size: 19px;
+    background-color: #5c9cff;
+    color: #fff;
+    border: none;
+    outline: none;
+}
+
+.image {
+    width: 300px;
+    height: auto;
+    margin: auto;
+    text-align: center;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+}
+@media (max-width:800px) {
+    .container {
+        width: 100%;
+    }
+}
+
+.btns {
+    margin:  auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btns button {
+    border: 1px solid #5c9cff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 7px;
+    color: #5c9cff;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    outline: none;
+}
+
+.btns .remove {
+    color: crimson;
+    border: 1px solid crimson;
+}

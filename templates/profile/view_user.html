@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <title>Profile | {{view}}</title>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="up">
+            <img src="{{view.profile.image.url}}" alt="">
+            <div class="info">
+                <h1>{{view}}</h1>
+                <p class="mute">Joined at {{view.profile.date|date:"Y/m/d"}}</p>
+                <div class="do">
+                    <a href="#"><i class="fab fa-facebook-messenger"></i> Message</a>
+                    <a href="#"><i class="fas fa-cubes"></i> Products</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="br"></div>
+
+    </div>
+
+
+    
+
+    <style>
+    </style>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/edit_product.css' %}">
+    <title>Edit | {{product}}</title>
+</head>
+<body>
+
+    
+    <div class="container">
+
+        <form id="submit-form" method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+            <div class="up">
+                <div class="btns">
+                    <button id="change-image" type="button">Change</button>
+                </div>
+                <div class="image">
+                    <img src="{{product.image.url}}" alt="" id="img">
+                    <input name="image" type="file" accept="images/*" onchange="loadFile(event)"  id="image" style="display: none;">
+                </div>
+            </div>
+    
+            <div class="info">
+    
+                <div class="in">
+                    <label for="">Name</label>
+                    <input type="text" name="name" id="" value="{{product.name}}">
+                </div>
+    
+                <div class="in">
+                    <label for="">Price</label>
+                    <input type="text"  name="price" id="" value="{{product.price}}$">
+                </div>
+    
+                <div class="in">
+                    <label for="">Description</label>
+                    <textarea name="desc" id="" cols="30" rows="10" >{{product.desc}}</textarea>
+                </div>
+    
+    
+                <div class="in">
+                    <label for="">Add Spectifications</label>
+                    <input type="text" id="spec-value">
+                    <button class="fas fa-plus add" id="add-btn" type="button"></button>
+                </div>
+                
+                
+                <div class="specs" id="specs">
+    
+                </div>
+    
+    
+                <div class="ok">
+                    <button type="submit">Save</button>
+                    <button onclick="window.location.href ='/'">Home</button>
+                </div>
+        </form>
+        </div>
+
+        <script src="{% static 'jq/jquery.min.js' %}"></script>
+        <script>
+
+            // post data using ajax
+            $('#submit-form').on('submit',function(e){
+                e.preventDefault();
+                
+                var allData = new FormData(this)
+                var list = [];
+                var quers = document.querySelectorAll('.items');
+                for (var x=0;x<quers.length;x++) {
+                    list.push(quers[x].value)
+                }
+                console.log(list)
+                allData.append('specs',list)
+            
+
+                $.ajax({
+                    type:"POST",
+                    url:"{% url 'editPro' product.pk %}",
+                    data:allData,
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(a){
+                        window.location.href = "{% url 'vpro' product.id %}"
+                    },
+                    error:function(x){
+                        alert('there is something wrong !')
+                    }
+                })
+
+            })
+
+
+        document.getElementById('change-image').onclick = function(){
+            document.getElementById('image').click();
+        }
+
+        var loadFile = function(event) {
+                    var reader = new FileReader();
+                    reader.onload = function(){
+                    var output = document.getElementById('img');
+                    output.src = reader.result;
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                    };
+
+
+
+
+            document.getElementById('add-btn').onclick = function(){
+                var value = document.getElementById('spec-value').value ;
+                document.getElementById('specs').innerHTML += `<input value='${value}' class='items' >`
+                document.getElementById('spec-value').value = '';
+            }
+
+
+            var index = '{{product.specs}}'
+            var list = index.split(';');
+            for (var i=0;i<list.length;i++){
+                document.getElementById('specs').innerHTML += `<input value='${list[i]}' class='items'>`
+            }
+        </script>
+
+
+    </div>
+
+</body>
+</html>

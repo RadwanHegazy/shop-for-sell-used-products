@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <title>Chat | {{consumer}}</title>
+</head>
+<body>
+    
+    <div class="container">
+
+
+        <div class="pro-view">
+            <div class="image">
+                <img src="{{product.image.url}}" alt="">
+            </div>
+            <div class="info">
+                <p class="name">{{consumer}} is asked for : <br>{{product.name}}</p>
+                <p class="price">{{product.price}}$</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="down">
+
+            <div class="user-side">
+                <div class="user">
+                    <img src="{{consumer.profile.image.url}}" alt="">
+                    <p class="username">{{consumer.username}}</p>
+                </div>
+            </div>
+    
+            <div class="chat-side" id="chatBox">
+    
+                <!-- <div class="isend"><label for="">Hello, my name is radwan and you ?</label></div>
+                <div class="irecv"><label for="">Hi, my name is ahmed</label></div> -->
+    
+            </div>
+    
+            
+        </div>
+        
+    </div>
+    
+    <div class="in" id="in">
+        <form method="POST" id="SendMsg" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input required type="text" name="msg" placeholder="Enter Message Here" id="msg">
+            <div class="insert">
+                <button class="fas fa-arrow-right" type="submit" id="subbtn"></button>
+                <button class="fas fa-images" id="imgBtn" type="button"></button>
+                <input type="file" accept="image/*" style="display: none;" name="image" id="imgInput">
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'jq/jquery.min.js' %}"></script>
+
+
+    <script>
+
+        document.getElementById('imgBtn').onclick = function(){
+            document.getElementById('imgInput').click()
+        }
+
+        document.getElementById('imgInput').onchange = function(){
+            $('#SendMsg').submit();
+        }
+
+        document.onload = function(){
+            document.getElementById('in').scrollIntoView();
+        }
+        
+        setInterval(function(){
+            $.ajax({
+                type:"GET",
+                url:"{% url 'Vmsgs' product.name %}",
+                success:function(data){
+                    $("#chatBox").empty();
+                    for (var i=0;i<data.length;i++){
+                        if (data[i][0] == "{{user.id}}"){
+                            if (data[i][2]){
+                                var element = `<div class='isend'><label>${data[i][2]}</label></div>`
+                            }
+                            if (data[i][3]) {
+                                var element = `<div class='isend img'><label><img src='/${data[i][3]}'></label></div>`
+                            }
+                        }else {
+                            if (data[i][2]){
+                                var element = `<div class='irecv'><label>${data[i][2]}</label></div>`
+                            }
+                            if (data[i][3]) {
+                                var element = `<div class='irecv img'><label><img src='/${data[i][3]}'></label></div>`
+                            }
+                        }
+
+                        document.getElementById('chatBox').innerHTML += element;
+                    }
+                },
+                error:function(error){
+                    console.log("error",error)
+                }
+            })
+        },1000)
+
+
+        // send msg using ajax
+        $("#SendMsg").on('submit',function(e){
+            e.preventDefault();
+
+
+            var msg = document.getElementById('msg').value;
+            var data = new FormData(this);
+            data.append('consumer_id',"{{consumer.id}}")
+            data.append('product_id',"{{product.id}}")
+
+            $.ajax({
+                type:"POST",
+                url:"{% url 'Omsg'  %}",
+                processData:false,
+                contentType:false,
+                cache:false,
+                data:data,
+                success:function(incomeDdata){
+                    document.getElementById('msg').value = '';
+                    document.getElementById('msg').focus;
+                }
+                ,error:function(error){
+                    console.log("error",error)
+                }
+            })
+
+
+
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <title>Add Prodcuts</title>
+    <link rel="stylesheet" href="{% static 'css/add.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    
+
+    <div class="container" >
+        <div class="nav" id="nav" >
+            <h1>AZShop</h1>
+            <button class="fas fa-bars bars">
+                <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'add' %}">Add Prodcuts</a></li>
+                    <li><a href="{% url 'profile' %}">Account</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Signup</a></li>
+                {% endif %}
+            </ul>
+            </button>
+        </div>
+
+        
+        <form method="POST" enctype="multipart/form-data" id="add-Form" class="form">
+            {% csrf_token %}
+            <div class="btns">
+                <button id="add" type="button">Add image</button>
+                <button class="remove" type="button" id="remove">Remove</button>
+            </div>
+            
+                <div class="image">
+                <input name="image" type="file" accept="images/*" onchange="loadFile(event)"  style="display: none;" id="image">
+                <img src="" alt="" id="img">
+            </div>
+    
+            <div class="in">
+                <input type="text" name="prooductName" id="NAME" placeholder="Name" >
+            </div>
+    
+            <div class="in">
+                <input type="text"  name="price" placeholder="Price" id="">
+            </div>
+            <div class="in">
+                <input type="text" name="prooductDesc" id="DESC" placeholder="Description" >
+            </div>
+    
+            <div class="in">
+                <input type="text"  placeholder="Specifications" id="word">
+                <button class="btn" id="add-btn" type="button">Add</button>
+            </div>
+    
+            <div class="spec" id="spec">
+    
+            </div>
+            <div class="in">
+    
+                <button class="done" type="submit">Done</button>
+            </div>
+        </form>
+
+    </div>    
+
+    <script src="{% static 'jq/jquery.min.js' %}"></script>
+    <script>
+
+        var list = [];
+        document.getElementById('add-btn').onclick = function(){
+            var val = document.getElementById('word').value;
+            document.getElementById('spec').innerHTML += 
+            `<p id='sp'>${val}</p>`;
+            document.getElementById('word').value = '';
+            list.push(val)
+        }
+
+        $("#add-Form").submit(function(e){
+            e.preventDefault()
+            var formData = new FormData(this)
+            formData.append('specs',list)
+
+            $.ajax({
+                type:'POST',
+                url:"{% url 'add' %}",
+                data:formData,
+                cache:false,
+                contentType:false,
+                processData:false
+               ,success:function(x){
+                window.location.href = '/';
+               } 
+            })
+        })
+
+
+        // select image 
+        document.getElementById('add').onclick = function(){document.getElementById('image').click();}
+    
+        var loadFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+            var output = document.getElementById('img');
+            output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            };
+
+        document.getElementById('remove').onclick = function(){
+            document.getElementById('img').src ='';
+        }
+    </script>
+    
+</body>
+</html>

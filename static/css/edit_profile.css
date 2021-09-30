@@ -1,0 +1,125 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f9f9f9;
+}
+
+.container {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.info {
+    position: relative;
+    width: 600px;
+    margin: auto;
+    margin-top:10px ;
+    display: flex;
+    /* justify-content: space-between; */
+}
+.info .image {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    position: relative;
+}
+
+.info .image img {
+    width: auto;
+    height: 100%;
+}
+
+.info .data{
+    position: relative;
+    width: 50%;
+}
+
+.info .data .in {
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 13px;
+    margin: 5px;
+    font-weight: 500;
+}
+
+.info .data .in input {
+    width: 100%;
+    border: none;
+    padding: 7px;
+    outline: none;
+    background-color: #f6f6f6;
+    border-left: 2px solid #00b0ff;
+    position: relative;
+}
+
+.info .btns {
+    width: 100%;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    font-family: sans-serif;
+}
+
+.info .btns button {
+    padding: 7px;
+    font-size: 15px;
+    color: #fff;
+    background-color: #00b0ff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.info .btns a {
+    text-decoration: none;
+    background-color: #fff;
+    color: #00b0ff;
+    border: 1px solid #00b0ff;
+    padding: 7px;
+    outline: none;
+    font-size: 14px;
+}
+
+.info .image button {
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    padding: 7px;
+    background-color: rgb(235, 165, 36);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+}
+
+@media (max-width:624px) {
+    .info {
+        display: block;
+        margin: 5px auto;
+        width: auto;
+        height: auto;
+    }
+
+    .info .image {
+        margin: auto;
+        /* width: auto; */
+        text-align: center;
+        /* height: auto; */
+    }
+
+    .info .data {
+        margin: auto;
+        width: 90%;
+    }
+}
